@@ -11,6 +11,7 @@ Scripts for making using Ansible even easier
 
 ### ct-combine-ssh-fragments.sh
 ```ct-combine-ssh-frgaments.sh [-ds]```
+
 Rather than try and manipulate `~/.ssh/config` directly, create files in `~/.ssh/cfg.d` and use this to combine them.
 
 | Flag | Required? | Purpose |
@@ -20,6 +21,7 @@ Rather than try and manipulate `~/.ssh/config` directly, create files in `~/.ssh
 
 ### ct-play.sh
 ```ct-play.sh [-adx] [OTHER_ARGS] -l limit -p playbook [-t tag1,,,tagN] [-s skiptag1,,,skiptagN]```
+
 The key thing about this script is that chech mode is the default.
 
 | Flag | Required? | Purpose |
@@ -35,6 +37,7 @@ The key thing about this script is that chech mode is the default.
 
 ### ct-vault.sh
 ```ct-vault.sh [-SVdehnsv] [-F vault_file] [-a <decrypt|encrypt|view>] [-g grep_string] -f file```
+
 The script will detect whether a file is vaulted or not and factor that in.
 
 | Flag | Required? | Purpose |
