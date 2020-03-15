@@ -45,11 +45,11 @@ The script will detect whether a file is vaulted or not and factor that in.
 | -F path | no | location of the vault file (default= `./.vault`) |
 | -S | no | do not save a copy of the decrypted file |
 | -V | no | set vault file to empty string |
-| -a action | one of [-a,-d,-e,-g] is needed | action in [decrypt, encrypt, view] (default=view)|
-| -d | one of [-a,-d,-e,-g] is needed | same as `-a decrypt` | 
-| -e | one of [-a,-d,-e,-g] is needed | same as `-a encrypt` | 
+| -a action | no | valid actions are [decrypt, encrypt, view] (default=view)|
+| -d | no | same as `-a decrypt` | 
+| -e | no | same as `-a encrypt` | 
 | -f filename | yes | filename to operate on |
-| -g string | one of [-a,-d-e,-g] is needed | combines view and grep |
+| -g string | no | combines view and grep |
 | -h | no | echo usage string and exit |
 | -n | no | soft mode, echoes command that would have been run and exits | 
 | -s | no | save a copy of the decrypted file so that you can diff for changes (default) |
