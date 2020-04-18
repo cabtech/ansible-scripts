@@ -1,16 +1,33 @@
 ----
 # ansible-scripts
-Scripts for making using Ansible even easier
+Handy scripts for using Ansible
 
 ## Contents
 | Name | Purpose |
 | ---- | ------- |
+| ct-avds.sh | mimics what `ansible-vault decrypt_string` could be |
 | ct-combine-ssh-fragments.sh | combines `~/.ssh/cfg.d/*cfg` into `~/.ssh/config` |
 | ct-play.sh | wrapper around ansible-playbook |
 | ct-vault.sh | wrapper around ansible-vault |
 
+### ct-avds.sh
+```
+ct-avds.sh [-Pv] [-p vault_file] -f file
+```
+
+Ansible Vault Decrypt String.  Parses a file with a single string that was encrypted with `ansible-vault encrypt_string` and passes it to `ansible-vault decrypt`.
+
+| Flag | Required? | Purpose |
+| ---- | --------- | ------- |
+| -P | no | prompts you for the ansible-vault password |
+| -f | yes | name of the file containing the encrypted string |
+| -p | no | name of the vault password file (default = `./.vault`) |
+| -v | no | produces extra out for testing (only use interactively) |
+
 ### ct-combine-ssh-fragments.sh
-```ct-combine-ssh-frgaments.sh [-ds]```
+```
+ct-combine-ssh-frgaments.sh [-ds]
+```
 
 Rather than try and manipulate `~/.ssh/config` directly, create files in `~/.ssh/cfg.d` and use this to combine them.
 
@@ -20,7 +37,9 @@ Rather than try and manipulate `~/.ssh/config` directly, create files in `~/.ssh
 | -s | no | soft mode: don't replace `~/.ssh/config` and show intended diffs |
 
 ### ct-play.sh
-```ct-play.sh [-adx] [OTHER_ARGS] -l limit -p playbook [-t tag1,,,tagN] [-s skiptag1,,,skiptagN]```
+```
+ct-play.sh [-adx] [OTHER_ARGS] -l limit -p playbook [-t tag1,,,tagN] [-s skiptag1,,,skiptagN]
+```
 
 The key thing about this script is that chech mode is the default.
 
@@ -36,7 +55,9 @@ The key thing about this script is that chech mode is the default.
 | others | no | to be added |
 
 ### ct-vault.sh
-```ct-vault.sh [-SVdehnsv] [-F vault_file] [-a <decrypt|encrypt|view>] [-g grep_string] -f file```
+```
+ct-vault.sh [-SVdehnsv] [-F vault_file] [-a <decrypt|encrypt|view>] [-g grep_string] -f file
+```
 
 The script will detect whether a file is vaulted or not and factor that in.
 
