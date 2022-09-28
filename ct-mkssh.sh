@@ -11,10 +11,12 @@ tmpfile=/tmp/${prog}_$$
 
 # --------------------------------
 
-ss_doit=true
+ss_doit=false
 do_diffs=false
-while getopts dsx arg; do
+while getopts DXdsx arg; do
 	case $arg in
+		D) do_diffs=false;;
+		X) ss_doit=false;;
 		d) do_diffs=true;;
 		s) ss_doit=false; do_diffs=true;;
 		x) ss_doit=true;;
