@@ -5,6 +5,7 @@ here=$(pwd)
 
 ss_allow_all=false
 ss_app=''
+ss_bootstrap_file=''
 ss_check='--check'
 ss_debug=false
 ss_diff=''
@@ -21,7 +22,7 @@ ss_virtualenv=''
 
 force_check_mode=false # provide a means to force us back into check mode
 
-while getopts ABDF:LNPQRV:ade:f:hi:l:np:s:t:vx arg; do
+while getopts ABDF:LNPQRV:ab:de:f:hi:l:np:s:t:vx arg; do
 	case $arg in
 		A) ss_pre_args="$ss_pre_args --ask-vault-pass"; ss_vault_file='';;
 		B) ss_pre_args="$ss_pre_args --ask-become-pass";;
@@ -34,6 +35,7 @@ while getopts ABDF:LNPQRV:ade:f:hi:l:np:s:t:vx arg; do
 		R) ss_vault_file='';;
 		V) ss_virtualenv="$OPTARG";;
 		a) ss_allow_all=true;;
+		b) ss_bootstrap_file="$OPTARG";;
 		d) ss_pre_args="$ss_pre_args --diff";;
 		e) ss_extra="$OPTARG";;
 		f) ss_forks="--forks=${OPTARG}";;
@@ -68,6 +70,15 @@ elif [[ ! -r "$ss_play" ]]; then
 elif [[ "$ss_limit" == 'all' ]] && ! $ss_allow_all; then
 	echo "ERROR :: Need to add '-a' to the command line if using '-l all'"
 	exit 4
+fi
+
+if [[ -n "$ss_bootstrap_file" ]]; then
+	if [[ ! -r "$ss_bootstrap_file" ]]; then
+		echo "ERROR :: Cannot read $ss_bootstrap_file"
+		exit 8
+	else
+		source $ss_bootstrap_file
+	fi
 fi
 
 if [[ -n "$ss_inventory" ]]; then
