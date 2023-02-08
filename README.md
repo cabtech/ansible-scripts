@@ -54,6 +54,14 @@ The key thing about this script is that chech mode is the default.
 | -x | no | switches to live mode (default is check-mode) |
 | others | no | to be added |
 
+### ct-strip-escape-codes.sh
+Based on [StackOverflow](https://stackoverflow.com/questions/6534556/how-to-remove-and-all-of-the-escape-sequences-in-a-file-using-linux-shell-sc)
+```
+ct-strip-escape-codes.sh filename
+    or
+someProcess | ct-strip-escape-codes.sh
+```
+
 ### ct-vault.sh
 ```
 ct-vault.sh [-SVdehnsv] [-F vault_file] [-a <decrypt|encrypt|view>] [-g grep_string] -f file
