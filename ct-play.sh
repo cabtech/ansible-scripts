@@ -94,7 +94,7 @@ play_stub=$(basename $ss_play)
 orig_stub=$(basename $ss_play) # only used in output
 
 if [[ "$play_dir" != "$here" ]]; then
-	tmp_play=.ANSIBLE_PLAYBOOK_${play_stub}
+	tmp_play=.ANSIBLE_PLAYBOOK_$$__${play_stub}
 	cp $play_dir/$play_stub $tmp_play
 	chmod 666 $tmp_play
 	play_dir=$here
@@ -144,7 +144,7 @@ echo "PLAYBOOK [ $(basename $0) $* ]"
 
 if $playbook_copied_over; then
 	echo "PLAYBOOK [$orig_stub : Cleaning up local copy of $orig_stub]"
-	/bin/rm $tmp_play
+	/bin/rm -f $tmp_play
 fi
 echo ''
 exit 0
