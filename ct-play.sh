@@ -5,7 +5,7 @@ here=$(pwd)
 
 ss_allow_all=false
 ss_app=''
-ss_bootstrap_file=''
+ss_bootstrap=false
 ss_check='--check'
 ss_debug=false
 ss_diff=''
@@ -22,7 +22,7 @@ ss_virtualenv=''
 
 force_check_mode=false # provide a means to force us back into check mode
 
-while getopts ABDF:LNPQRV:ab:de:f:hi:l:np:s:t:vx arg; do
+while getopts ABDF:LNPQRV:abde:f:hi:l:np:s:t:vx arg; do
 	case $arg in
 		A) ss_pre_args="$ss_pre_args --ask-vault-pass"; ss_vault_file='';;
 		B) ss_pre_args="$ss_pre_args --ask-become-pass";;
@@ -35,7 +35,7 @@ while getopts ABDF:LNPQRV:ab:de:f:hi:l:np:s:t:vx arg; do
 		R) ss_vault_file='';;
 		V) ss_virtualenv="$OPTARG";;
 		a) ss_allow_all=true;;
-		b) ss_bootstrap_file="$OPTARG";;
+		b) ss_bootstrap=true;;
 		d) ss_pre_args="$ss_pre_args --diff";;
 		e) ss_extra="$OPTARG";;
 		f) ss_forks="--forks=${OPTARG}";;
@@ -72,12 +72,14 @@ elif [[ "$ss_limit" == 'all' ]] && ! $ss_allow_all; then
 	exit 4
 fi
 
-if [[ -n "$ss_bootstrap_file" ]]; then
-	if [[ ! -r "$ss_bootstrap_file" ]]; then
-		echo "ERROR :: Cannot read $ss_bootstrap_file"
-		exit 8
-	else
-		source $ss_bootstrap_file
+if $ss_bootstrap; then
+	check=$(/bin/ls -1 *.env 2> /dev/null)
+	if [[ -n "$check" ]]; then
+		for fname in *.env; do
+			if [[ -r "$fname" ]]; then
+				source $fname
+			fi
+		done
 	fi
 fi
 
@@ -121,7 +123,7 @@ if [[ -n "$ss_virtualenv" ]]; then
 	fi
 fi
 
-ansible_ver=$(ansible --version | grep "^ansible" | awk '{print $2}')
+ansible_ver=$(ansible --version | grep "^ansible" | awk '{print $3}' | tr -d '[]')
 python_ver=$(ansible --version | grep "python version" | awk -F' = ' '{print $2}' | awk '{print $1}')
 echo "PLAYBOOK [$orig_stub : ansible $ansible_ver]"
 echo "PLAYBOOK [$orig_stub : python $python_ver]"
