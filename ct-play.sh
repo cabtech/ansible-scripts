@@ -5,7 +5,8 @@ here=$(pwd)
 
 ss_allow_all=false
 ss_app=''
-ss_bootstrap=false
+ss_bootstrap_all=false
+ss_bootstrap_fname=""
 ss_check='--check'
 ss_debug=false
 ss_diff=''
@@ -35,7 +36,7 @@ while getopts ABDF:LNPQRV:abde:f:hi:l:np:s:t:vx arg; do
 		R) ss_vault_file='';;
 		V) ss_virtualenv="$OPTARG";;
 		a) ss_allow_all=true;;
-		b) ss_bootstrap=true;;
+		b) ss_bootstrap_all=true;;  # this means you source all the *.env files in your CWD
 		d) ss_pre_args="$ss_pre_args --diff";;
 		e) ss_extra="$OPTARG";;
 		f) ss_forks="--forks=${OPTARG}";;
@@ -44,6 +45,7 @@ while getopts ABDF:LNPQRV:abde:f:hi:l:np:s:t:vx arg; do
 		l) ss_limit=${OPTARG};;
 		n) ss_app=echo;;
 		p) ss_play=${OPTARG};;
+		r) ss_bootstrap_fname="${OPTARG}";;  # this means you source a specific file
 		s) ss_skip="--skip-tags=${OPTARG}";;
 		t) ss_pre_args="$ss_pre_args --tags=${OPTARG}";;
 		v) ss_pre_args="$ss_pre_args -v";;
@@ -72,7 +74,7 @@ elif [[ "$ss_limit" == 'all' ]] && ! $ss_allow_all; then
 	exit 4
 fi
 
-if $ss_bootstrap; then
+if $ss_bootstrap_all; then
 	check=$(/bin/ls -1 *.env 2> /dev/null)
 	if [[ -n "$check" ]]; then
 		for fname in *.env; do
@@ -80,6 +82,12 @@ if $ss_bootstrap; then
 				source $fname
 			fi
 		done
+	fi
+fi
+
+if [[ -n "$ss_bootstrap_fname" ]]; then
+	if [[ -r "$ss_bootstrap_fname" ]]; then
+		source $ss_bootstrap_fname
 	fi
 fi
 
