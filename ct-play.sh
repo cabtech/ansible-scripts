@@ -23,7 +23,7 @@ ss_virtualenv=''
 
 force_check_mode=false # provide a means to force us back into check mode
 
-while getopts ABDF:LNPQRV:abde:f:hi:l:np:s:t:vx arg; do
+while getopts ABDF:LNPQRV:abde:f:hi:l:np:r:s:t:vx arg; do
 	case $arg in
 		A) ss_pre_args="$ss_pre_args --ask-vault-pass"; ss_vault_file='';;
 		B) ss_pre_args="$ss_pre_args --ask-become-pass";;
