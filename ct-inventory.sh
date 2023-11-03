@@ -3,10 +3,10 @@
 fname="ansible.env"
 inventory="inv.d/cloud_inventory.py"
 
-while getopts f:i: arg; do
+while getopts i:r: arg; do
 		case $arg in
-				f) fname="${OPTARG}";;
 				i) inventory="${OPTARG}";;
+				r) fname="${OPTARG}";;  # same arg as ct-play.sh
 				*) echo "ERROR :: invalid arg"; exit 42;;
 		esac
 done
