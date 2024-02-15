@@ -27,14 +27,16 @@ done
 if [[ ! -d "$dotdir" ]]; then
 	echo "$prog :: ERROR :: cannot see $dot"
 	exit 4
-elif [[ ! -d "$fragdir" ]]; then
-	echo "$prog :: ERROR :: cannot see $fragdir"
-	exit 4
 else
 	chmod 700 $dotdir
+
+	mkdir -p $fragdir
 	chmod 700 $fragdir
 	chmod 600 $fragdir/*.cfg
-	chmod 600 $config
+
+	if [[ -e "$config" ]]; then
+		chmod 600 $config
+	fi
 
 	cat $fragdir/*.cfg > $tmpfile
 
